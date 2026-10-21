@@ -1,0 +1,111 @@
+{
+  "features": [
+    "no_of_dependents",
+    "education",
+    "self_employed",
+    "income_annum",
+    "loan_amount",
+    "loan_term",
+    "cibil_score",
+    "residential_assets_value",
+    "commercial_assets_value",
+    "luxury_assets_value",
+    "bank_asset_value"
+  ],
+  "numeric_features": [
+    "no_of_dependents",
+    "income_annum",
+    "loan_amount",
+    "loan_term",
+    "cibil_score",
+    "residential_assets_value",
+    "commercial_assets_value",
+    "luxury_assets_value",
+    "bank_asset_value"
+  ],
+  "categorical_features": [
+    "education",
+    "self_employed"
+  ],
+  "categorical_values": {
+    "education": [
+      "Graduate",
+      "Not Graduate"
+    ],
+    "self_employed": [
+      "No",
+      "Yes"
+    ]
+  },
+  "numeric_defaults": {
+    "no_of_dependents": 3.0,
+    "income_annum": 5100000.0,
+    "loan_amount": 14500000.0,
+    "loan_term": 10.0,
+    "cibil_score": 600.0,
+    "residential_assets_value": 5600000.0,
+    "commercial_assets_value": 3700000.0,
+    "luxury_assets_value": 14600000.0,
+    "bank_asset_value": 4600000.0
+  },
+  "positive_class": "Approved",
+  "classes": [
+    "Approved",
+    "Rejected"
+  ],
+  "identifier_excluded": "loan_id",
+  "feature_importances": [
+    {
+      "feature": "cibil_score",
+      "importance": 0.7819
+    },
+    {
+      "feature": "loan_term",
+      "importance": 0.0612
+    },
+    {
+      "feature": "loan_amount",
+      "importance": 0.0324
+    },
+    {
+      "feature": "luxury_assets_value",
+      "importance": 0.0217
+    },
+    {
+      "feature": "income_annum",
+      "importance": 0.0216
+    },
+    {
+      "feature": "commercial_assets_value",
+      "importance": 0.0216
+    },
+    {
+      "feature": "residential_assets_value",
+      "importance": 0.0209
+    },
+    {
+      "feature": "bank_asset_value",
+      "importance": 0.019
+    },
+    {
+      "feature": "no_of_dependents",
+      "importance": 0.01
+    },
+    {
+      "feature": "self_employed_Yes",
+      "importance": 0.0026
+    },
+    {
+      "feature": "self_employed_No",
+      "importance": 0.0025
+    },
+    {
+      "feature": "education_Graduate",
+      "importance": 0.0023
+    },
+    {
+      "feature": "education_Not Graduate",
+      "importance": 0.0023
+    }
+  ]
+}

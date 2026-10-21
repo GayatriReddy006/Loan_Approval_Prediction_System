@@ -1,0 +1,120 @@
+{
+  "positive_class": "Approved",
+  "class_order": [
+    "Approved",
+    "Rejected"
+  ],
+  "test_rows": 854,
+  "metrics": [
+    {
+      "model": "logistic_regression",
+      "accuracy": 0.9227166276346604,
+      "precision_approved": 0.926605504587156,
+      "recall_approved": 0.9510357815442562,
+      "f1_approved": 0.9386617100371747,
+      "roc_auc": 0.9745208817990472
+    },
+    {
+      "model": "decision_tree",
+      "accuracy": 0.9730679156908665,
+      "precision_approved": 0.9738805970149254,
+      "recall_approved": 0.9830508474576272,
+      "f1_approved": 0.9784442361761949,
+      "roc_auc": 0.9698535971034264
+    },
+    {
+      "model": "random_forest",
+      "accuracy": 0.9812646370023419,
+      "precision_approved": 0.9777365491651205,
+      "recall_approved": 0.992467043314501,
+      "f1_approved": 0.9850467289719627,
+      "roc_auc": 0.9974754100272282
+    }
+  ],
+  "confusion_matrices": {
+    "logistic_regression": [
+      [
+        505,
+        26
+      ],
+      [
+        40,
+        283
+      ]
+    ],
+    "decision_tree": [
+      [
+        522,
+        9
+      ],
+      [
+        14,
+        309
+      ]
+    ],
+    "random_forest": [
+      [
+        527,
+        4
+      ],
+      [
+        12,
+        311
+      ]
+    ]
+  },
+  "feature_importances": [
+    {
+      "feature": "cibil_score",
+      "importance": 0.7819
+    },
+    {
+      "feature": "loan_term",
+      "importance": 0.0612
+    },
+    {
+      "feature": "loan_amount",
+      "importance": 0.0324
+    },
+    {
+      "feature": "luxury_assets_value",
+      "importance": 0.0217
+    },
+    {
+      "feature": "income_annum",
+      "importance": 0.0216
+    },
+    {
+      "feature": "commercial_assets_value",
+      "importance": 0.0216
+    },
+    {
+      "feature": "residential_assets_value",
+      "importance": 0.0209
+    },
+    {
+      "feature": "bank_asset_value",
+      "importance": 0.019
+    },
+    {
+      "feature": "no_of_dependents",
+      "importance": 0.01
+    },
+    {
+      "feature": "self_employed_Yes",
+      "importance": 0.0026
+    },
+    {
+      "feature": "self_employed_No",
+      "importance": 0.0025
+    },
+    {
+      "feature": "education_Graduate",
+      "importance": 0.0023
+    },
+    {
+      "feature": "education_Not Graduate",
+      "importance": 0.0023
+    }
+  ]
+}

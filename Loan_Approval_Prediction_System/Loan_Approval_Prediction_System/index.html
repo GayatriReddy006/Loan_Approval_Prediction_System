@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Banking-grade AI Loan Approval Prediction System using Logistic Regression, Decision Tree, and Random Forest classification algorithms.">
+  <title>CreditPulse AI | Loan Approval Prediction &amp; Credit Risk Analytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+  <!-- Top Site Header & Navigation -->
+  <header class="site-header">
+    <div class="header-inner page-width">
+      <a class="brand" href="#top" aria-label="CreditPulse Loan AI Home">
+        <div class="brand-badge">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">CreditPulse <span>AI</span></span>
+          <span class="brand-tag">Loan Approval Prediction System</span>
+        </div>
+      </a>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#top" class="nav-link">Home</a>
+        <a href="#predict" class="nav-link">Loan Screener</a>
+        <a href="#dashboard" class="nav-link auth-required-nav" style="display: none;">My Dashboard</a>
+        <a href="#admin" class="nav-link admin-required-nav" style="display: none;">Admin Portal</a>
+        <a href="#comparison" class="nav-link">Model Benchmarks</a>
+        <a href="#algorithms" class="nav-link">Algorithms</a>
+        <a href="#methodology" class="nav-link">Methodology</a>
+      </nav>
+
+      <!-- User Auth State Area -->
+      <div class="auth-bar" id="auth-bar">
+        <div class="auth-guest-links" id="auth-guest-links">
+          <button type="button" class="btn-text-nav" id="open-login-btn">Log In</button>
+          <button type="button" class="btn-primary-nav" id="open-register-btn">Register</button>
+        </div>
+        <div class="auth-user-menu" id="auth-user-menu" style="display: none;">
+          <div class="user-pill" id="user-pill">
+            <span class="user-avatar" id="user-avatar">U</span>
+            <span class="user-name" id="user-name-display">User</span>
+            <span class="admin-badge" id="admin-badge" style="display: none;">Admin</span>
+          </div>
+          <button type="button" class="btn-text-nav danger-hover" id="logout-btn">Log Out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Flash Notification Toast -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <main id="top">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="page-width hero-content">
+        <div class="hero-header">
+          <div class="hero-badge">
+            <span class="badge-spark">✦</span>
+            <span>DATA SCIENCE &amp; MACHINE LEARNING BANKING APPLICATION</span>
+          </div>
+          <h1 class="hero-title">
+            Automated Credit Risk &amp; <br>
+            <span class="gradient-text">Loan Approval Prediction</span>
+          </h1>
+          <p class="hero-desc">
+            Evaluate loan applications across three machine learning algorithms: 
+            <strong>Random Forest</strong>, <strong>Decision Tree (CART)</strong>, and <strong>Logistic Regression</strong>. 
+            Trained and tested on 4,269 structured borrower records with persistent history tracking and explainable credit risk drivers.
+          </p>
+          <div class="hero-cta-row">
+            <a href="#predict" class="btn-hero-primary">Check Loan Eligibility <span aria-hidden="true">↓</span></a>
+            <a href="#comparison" class="btn-hero-secondary">View Model Benchmarks</a>
+          </div>
+        </div>
+
+        <!-- KPI Metric Highlights -->
+        <div class="kpi-grid" aria-label="Model benchmark highlights">
+          <div class="kpi-card highlight">
+            <span class="kpi-label">CHAMPION MODEL</span>
+            <div class="kpi-val">98.13%</div>
+            <span class="kpi-sub">Random Forest Accuracy</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">DECISION TREE (CART)</span>
+            <div class="kpi-val">97.31%</div>
+            <span class="kpi-sub">Rule-Based F1: 97.84%</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">LOGISTIC REGRESSION</span>
+            <div class="kpi-val">92.27%</div>
+            <span class="kpi-sub">Linear Sigmoid AUC: 97.5%</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">PRIMARY PREDICTOR</span>
+            <div class="kpi-val">78.2%</div>
+            <span class="kpi-sub">CIBIL Score Gini Weight</span>
+          </div>
+        </div>
+
+        <!-- One-Click Preset Scenarios -->
+        <div class="presets-container" aria-label="Applicant persona quick presets">
+          <div class="presets-header">
+            <span class="presets-title">⚡ Quick Demonstration Profiles:</span>
+            <span class="presets-subtitle">Select an applicant scenario to populate the 11 banking features and test multi-model predictions:</span>
+          </div>
+          <div class="presets-row" id="preset-buttons">
+            <button type="button" class="preset-chip" data-preset="prime">
+              <span class="preset-icon">🌟</span>
+              <span class="preset-name">Prime Salaried</span>
+              <span class="preset-tag success">CIBIL 820 · High Assets</span>
+            </button>
+            <button type="button" class="preset-chip" data-preset="entrepreneur">
+              <span class="preset-icon">💼</span>
+              <span class="preset-name">Self-Employed</span>
+              <span class="preset-tag primary">CIBIL 740 · Strong Assets</span>
+            </button>
+            <button type="button" class="preset-chip" data-preset="borderline">
+              <span class="preset-icon">⚠️</span>
+              <span class="preset-name">Borderline Risk</span>
+              <span class="preset-tag warning">CIBIL 590 · Moderate Debt</span>
+            </button>
+            <button type="button" class="preset-chip" data-preset="highrisk">
+              <span class="preset-icon">❌</span>
+              <span class="preset-name">High Default Risk</span>
+              <span class="preset-tag danger">CIBIL 380 · High Loan</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- User Dashboard Section (Visible to Authenticated Users) -->
+    <section class="user-dashboard-section page-width" id="dashboard" style="display: none;">
+      <div class="section-heading">
+        <div>
+          <span class="section-tag">PERSONAL PORTAL</span>
+          <h2 class="section-title">My Application History</h2>
+          <p class="section-subtitle">Saved loan assessments and prediction outcomes associated with your account.</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <a href="/api/applications/export-csv" class="btn-secondary" download title="Download all submitted applications as CSV">📥 Export CSV</a>
+          <a href="#predict" class="btn-primary" style="height: 38px; padding: 0 16px; font-size: 13px;">+ New Application</a>
+        </div>
+      </div>
+
+      <!-- User Dashboard Summary Cards -->
+      <div class="kpi-grid dashboard-summary-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">TOTAL APPLICATIONS</span>
+          <div class="kpi-val" id="user-total-apps">0</div>
+          <span class="kpi-sub">Submitted under your account</span>
+        </div>
+        <div class="kpi-card highlight">
+          <span class="kpi-label">APPROVED APPLICATIONS</span>
+          <div class="kpi-val" id="user-approved-apps">0</div>
+          <span class="kpi-sub">Consensus Recommended</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">REJECTED APPLICATIONS</span>
+          <div class="kpi-val" id="user-rejected-apps">0</div>
+          <span class="kpi-sub">High Risk / Low CIBIL</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">DATABASE ENGINE</span>
+          <div class="kpi-val" id="user-db-engine">MySQL</div>
+          <span class="kpi-sub">Active Storage Driver</span>
+        </div>
+      </div>
+
+      <!-- User Applications Table -->
+      <div class="card table-card dashboard-table-card">
+        <div class="card-header">
+          <h3 class="card-title">Submitted Applications</h3>
+          <span class="card-subtitle">Showing actual database records</span>
+        </div>
+        <div class="table-container">
+          <table class="benchmark-table">
+            <thead>
+              <tr>
+                <th>App ID</th>
+                <th>Date</th>
+                <th>Loan Amount</th>
+                <th>CIBIL</th>
+                <th>Random Forest</th>
+                <th>Decision Tree</th>
+                <th>Logistic Reg</th>
+                <th>Consensus</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="user-apps-tbody">
+              <tr><td colspan="9" class="table-loading">Loading your applications…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Portal Section (Visible to Authorized Administrators) -->
+    <section class="admin-section page-width" id="admin" style="display: none;">
+      <div class="section-heading">
+        <div>
+          <span class="section-tag">ADMINISTRATIVE INTELLIGENCE</span>
+          <h2 class="section-title">System Administration &amp; Global Analytics</h2>
+          <p class="section-subtitle">Aggregated system telemetry, user accounts, and multi-model decision distribution.</p>
+        </div>
+      </div>
+
+      <div class="kpi-grid admin-kpi-grid">
+        <div class="kpi-card highlight">
+          <span class="kpi-label">REGISTERED USERS</span>
+          <div class="kpi-val" id="admin-user-count">0</div>
+          <span class="kpi-sub">User accounts created</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">TOTAL APPLICATIONS</span>
+          <div class="kpi-val" id="admin-app-count">0</div>
+          <span class="kpi-sub">Evaluated by models</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">ACTIVE ALGORITHMS</span>
+          <div class="kpi-val">3</div>
+          <span class="kpi-sub">RF, DT, LR pipelines loaded</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">DATABASE STATUS</span>
+          <div class="kpi-val" id="admin-db-status">CONNECTED</div>
+          <span class="kpi-sub" id="admin-db-name">MySQL / loan_approval_db</span>
+        </div>
+      </div>
+
+      <!-- Decision Distribution by Model -->
+      <div class="card admin-table-card">
+        <div class="card-header">
+          <h3 class="card-title">Model Decisions Distribution</h3>
+          <span class="card-subtitle">Approved vs Rejected counts recorded in prediction history</span>
+        </div>
+        <div class="table-container">
+          <table class="benchmark-table">
+            <thead>
+              <tr>
+                <th>Model Name</th>
+                <th>Predicted Outcome</th>
+                <th>Total Invocations</th>
+              </tr>
+            </thead>
+            <tbody id="admin-pred-counts-tbody">
+              <tr><td colspan="3">Loading prediction metrics…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Admin Global Search Table -->
+      <div class="card admin-search-card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">All Applications Directory</h3>
+            <span class="card-subtitle">Search by applicant name, email, or application ID</span>
+          </div>
+          <div class="search-box">
+            <input type="text" id="admin-search-input" placeholder="Search applicant or ID…" aria-label="Search applications">
+            <button type="button" class="btn-secondary" id="admin-search-btn">Filter</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="benchmark-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Applicant</th>
+                <th>Email</th>
+                <th>Annual Income</th>
+                <th>Loan Requested</th>
+                <th>Term</th>
+                <th>CIBIL</th>
+                <th>Submitted On</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="admin-apps-tbody">
+              <tr><td colspan="9">Enter query or load applications.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loan Application Form & Real-Time Prediction Section -->
+    <section class="workspace-section page-width" id="predict">
+      <div class="section-heading">
+        <div>
+          <span class="section-tag">APPLICANT SCREENER</span>
+          <h2 class="section-title">Loan Eligibility Screener</h2>
+          <p class="section-subtitle">Enter borrower details to evaluate predictions simultaneously across all three trained models.</p>
+        </div>
+        <div class="workspace-actions">
+          <button type="button" class="btn-secondary" id="fill-defaults-btn">Load Dataset Median</button>
+        </div>
+      </div>
+
+      <div class="workspace-layout">
+        <!-- Input Form Card -->
+        <div class="form-wrapper">
+          <form id="applicant-form" class="card form-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Applicant Financial &amp; Credit Profile</h3>
+                <span class="card-subtitle">11 active features mapped directly to trained model pipelines</span>
+              </div>
+              <div id="auth-save-indicator" class="auth-save-hint">
+                <span>🔒 Log in to save to history</span>
+              </div>
+            </div>
+
+            <!-- Form Fields Grid -->
+            <div id="form-fields" class="form-grid">
+              <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading trained model configuration and feature statistics…</p>
+              </div>
+            </div>
+
+            <!-- Live Collateral Coverage Bar -->
+            <div class="collateral-card" id="collateral-box">
+              <div class="collateral-row">
+                <span class="collateral-label">Calculated Collateral Coverage:</span>
+                <span class="collateral-ratio" id="collateral-ratio-val">--</span>
+              </div>
+              <div class="collateral-meter">
+                <div class="collateral-bar" id="collateral-bar"></div>
+              </div>
+              <div class="collateral-details">
+                <span>Total Assets: <strong id="total-assets-val">--</strong></span>
+                <span>Loan Requested: <strong id="loan-amount-disp">--</strong></span>
+              </div>
+            </div>
+
+            <div class="form-buttons">
+              <button class="btn-primary" type="submit" id="submit-btn">
+                <span id="submit-btn-text">Run All 3 Classifiers</span>
+                <svg id="submit-btn-arrow" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.2" fill="none">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+                <div class="spinner-sm" id="submit-spinner" style="display: none;"></div>
+              </button>
+              <button class="btn-ghost" type="reset" id="reset-button">Reset</button>
+            </div>
+            <p class="form-privacy-note">Identifier column (loan_id) is excluded from model inputs. All inputs are evaluated via backend scikit-learn pipelines.</p>
+          </form>
+        </div>
+
+        <!-- Prediction Results Card -->
+        <div class="results-wrapper">
+          <div class="card results-card" id="prediction-results">
+            <div class="card-header results-header">
+              <div>
+                <span class="badge-mini">AI DECISION SUMMARY</span>
+                <h3 class="card-title" id="results-heading">Prediction Output</h3>
+              </div>
+              <div class="result-header-actions">
+                <button type="button" class="btn-icon" id="print-report-btn" title="Print Assessment Report" aria-label="Print Assessment Report">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+                    <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                    <path d="M6 14h12v8H6z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Consensus Banner -->
+            <div class="consensus-banner" id="consensus-banner">
+              <div class="consensus-icon" id="consensus-icon">⚖️</div>
+              <div class="consensus-info">
+                <div class="consensus-status" id="consensus-status">Awaiting Input</div>
+                <div class="consensus-detail" id="consensus-detail">Submit the applicant profile to generate model decisions.</div>
+              </div>
+            </div>
+
+            <!-- Individual Model Cards Container -->
+            <div class="models-grid" id="result-list">
+              <div class="results-empty-state">
+                <p>Select a preset above or click <strong>Run All 3 Classifiers</strong> to compare Random Forest, Decision Tree, and Logistic Regression outputs.</p>
+              </div>
+            </div>
+
+            <!-- Key Decision Factors Breakdown -->
+            <div class="driver-card" id="driver-card" style="display: none;">
+              <h4 class="driver-title">Key Decision Drivers (Gini Importance &amp; Risk Metrics)</h4>
+              <ul class="driver-list" id="driver-list"></ul>
+            </div>
+
+            <!-- Post-Prediction Actions -->
+            <div class="post-pred-actions" id="post-pred-actions" style="display: none;">
+              <button type="button" class="btn-secondary" id="scroll-to-history-btn">View Saved History</button>
+              <button type="button" class="btn-ghost" id="new-app-btn">Submit Another Profile</button>
+            </div>
+
+            <div class="results-disclaimer">
+              <span>⚠️ <strong>Educational Estimate:</strong> Predictions are generated from historical dataset patterns and do not constitute an official credit guarantee. Real lending underwriting requires credit bureau verification, adverse action documentation, and regulatory compliance.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Model Performance & Empirical Benchmarks Section -->
+    <section class="benchmark-section" id="comparison">
+      <div class="page-width">
+        <div class="section-heading">
+          <div>
+            <span class="section-tag">EMPIRICAL BENCHMARKS</span>
+            <h2 class="section-title">Model Performance Comparison</h2>
+            <p class="section-subtitle">Rigorous evaluation on held-out stratified test set (20% test split, N = 854 applicants). Positive class: <strong>Approved</strong>.</p>
+          </div>
+          <div class="dataset-meta-badge">
+            <span>Training Records: <strong>3,415</strong></span>
+            <span>Testing Records: <strong>854</strong></span>
+          </div>
+        </div>
+
+        <div class="benchmark-grid">
+          <!-- Metrics Table Card -->
+          <div class="card table-card">
+            <div class="card-header">
+              <h3 class="card-title">Test Set Evaluation Metrics</h3>
+              <span class="card-subtitle">Calculated dynamically from real test predictions</span>
+            </div>
+            <div class="table-container">
+              <table class="benchmark-table">
+                <thead>
+                  <tr>
+                    <th>Classifier</th>
+                    <th>Accuracy</th>
+                    <th>Precision</th>
+                    <th>Recall</th>
+                    <th>F1-Score</th>
+                    <th>ROC-AUC</th>
+                  </tr>
+                </thead>
+                <tbody id="metrics-body">
+                  <tr><td colspan="6" class="table-loading">Loading trained metrics…</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="metric-definitions">
+              <div class="metric-def">
+                <strong>Accuracy:</strong> Overall correct classification fraction across all test records.
+              </div>
+              <div class="metric-def">
+                <strong>Precision (Approved):</strong> Proportion of predicted approvals that were genuine approvals (minimizes credit default risk).
+              </div>
+              <div class="metric-def">
+                <strong>Recall (Approved):</strong> Proportion of actual creditworthy borrowers approved (minimizes lost business).
+              </div>
+              <div class="metric-def">
+                <strong>ROC-AUC:</strong> Area under the ROC curve measuring separation ability across all decision thresholds.
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Visualizations Card with Tabs -->
+          <div class="card visual-card">
+            <div class="visual-tabs" role="tablist">
+              <button class="visual-tab active" data-chart="comparison">Scores Comparison</button>
+              <button class="visual-tab" data-chart="importance">Feature Importances</button>
+              <button class="visual-tab" data-chart="confusion">Confusion Matrices</button>
+            </div>
+            <div class="visual-body">
+              <div class="chart-view active" id="chart-comparison-view">
+                <img src="results/model_comparison.png" alt="Bar chart comparing Accuracy, Precision, Recall, F1, and ROC-AUC across classifiers" class="chart-img">
+                <p class="chart-caption">Overall performance comparison across all 5 evaluation metrics on held-out test data.</p>
+              </div>
+              <div class="chart-view" id="chart-importance-view">
+                <img src="results/feature_importance.png" alt="Horizontal bar chart showing Random Forest Gini feature importances" class="chart-img">
+                <p class="chart-caption">Random Forest Gini feature importance ranking confirming CIBIL credit score as the decisive factor (78.2%).</p>
+              </div>
+              <div class="chart-view" id="chart-confusion-view">
+                <img src="results/confusion_matrices.png" alt="Confusion matrices for Logistic Regression, Decision Tree, and Random Forest" class="chart-img">
+                <p class="chart-caption">Confusion matrices displaying True Positives, False Positives, True Negatives, and False Negatives.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Algorithms Architecture & Technical Breakdown -->
+    <section class="algorithms-section page-width" id="algorithms">
+      <div class="section-heading">
+        <div>
+          <span class="section-tag">ALGORITHM ARCHITECTURE</span>
+          <h2 class="section-title">Which Machine Learning Algorithms Are Used Here?</h2>
+          <p class="section-subtitle">Mathematical formulation, operational logic, and banking credit risk characteristics for each classifier.</p>
+        </div>
+      </div>
+
+      <div class="algo-cards-grid">
+        <!-- Algorithm 1: Random Forest -->
+        <article class="card algo-card highlight-card">
+          <div class="algo-card-badge">CHAMPION · 98.1% ACC</div>
+          <div class="algo-header">
+            <div class="algo-icon">🌲🌲</div>
+            <div>
+              <h3 class="algo-name">Random Forest Classifier</h3>
+              <span class="algo-category">Ensemble Bagging (200 Trees)</span>
+            </div>
+          </div>
+          <div class="algo-body">
+            <p class="algo-desc">
+              Builds an ensemble of <strong>200 de-correlated decision trees</strong> using Bootstrap Aggregation (bagging) and random feature subspace sampling at every split.
+            </p>
+            <div class="algo-spec-box">
+              <div class="spec-row">
+                <span class="spec-label">Ensemble Averaging:</span>
+                <code>\hat{P}(Y=1|x) = \frac{1}{B} \sum_{b=1}^{B} P_b(Y=1|x)</code>
+              </div>
+              <div class="spec-row">
+                <span class="spec-label">Hyperparameters:</span>
+                <span>n_estimators = 200, max_features = sqrt(p), random_state = 42</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-label">Why it excels:</span>
+                <span>Dampens single-tree variance by 1/B, captures non-linear collateral thresholds without overfitting, and delivers <strong>99.25% approval recall</strong>.</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Algorithm 2: Decision Tree -->
+        <article class="card algo-card">
+          <div class="algo-card-badge">RULE-BASED · 97.3% ACC</div>
+          <div class="algo-header">
+            <div class="algo-icon">🌳</div>
+            <div>
+              <h3 class="algo-name">Decision Tree (CART)</h3>
+              <span class="algo-category">Recursive Binary Partitioning</span>
+            </div>
+          </div>
+          <div class="algo-body">
+            <p class="algo-desc">
+              Constructs a single binary decision tree by recursively partitioning applicant features to minimize <strong>Gini Impurity</strong> at every branch node.
+            </p>
+            <div class="algo-spec-box">
+              <div class="spec-row">
+                <span class="spec-label">Splitting Criterion:</span>
+                <code>I_G(t) = 1 - \sum_{i=1}^C p(i|t)^2</code>
+              </div>
+              <div class="spec-row">
+                <span class="spec-label">Banking Suitability:</span>
+                <span>White-box interpretability: allows bank compliance teams to trace exact logical paths (e.g. if CIBIL &gt; 549 and Loan Term &le; 10).</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Algorithm 3: Logistic Regression -->
+        <article class="card algo-card">
+          <div class="algo-card-badge">LINEAR BASELINE · 92.3% ACC</div>
+          <div class="algo-header">
+            <div class="algo-icon">📈</div>
+            <div>
+              <h3 class="algo-name">Logistic Regression</h3>
+              <span class="algo-category">Parametric Linear Model</span>
+            </div>
+          </div>
+          <div class="algo-body">
+            <p class="algo-desc">
+              Models the log-odds of loan approval as a linear combination of standardized numeric inputs and one-hot encoded categories, transformed through the standard logistic (sigmoid) function.
+            </p>
+            <div class="algo-spec-box">
+              <div class="spec-row">
+                <span class="spec-label">Sigmoid Link:</span>
+                <code>P(Y=1|X) = \frac{1}{1 + e^{-(\beta_0 + \mathbf{w}^T \mathbf{x})}}</code>
+              </div>
+              <div class="spec-row">
+                <span class="spec-label">Banking Role:</span>
+                <span>Regulatory benchmark for credit scorecards; provides direct log-odds interpretations and calibrated probabilities (ROC-AUC: 97.5%).</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Comparative Analysis Table -->
+      <div class="card matrix-card">
+        <h3 class="card-title">Comparative Analysis Across Banking Criteria</h3>
+        <div class="table-container">
+          <table class="benchmark-table matrix-table">
+            <thead>
+              <tr>
+                <th>Dimension</th>
+                <th>Logistic Regression</th>
+                <th>Decision Tree (CART)</th>
+                <th>Random Forest (Ensemble)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Decision Boundary</strong></td>
+                <td>Linear hyperplane in transformed space</td>
+                <td>Axis-parallel orthogonal rectangles</td>
+                <td>Smooth non-linear ensemble boundary</td>
+              </tr>
+              <tr>
+                <td><strong>Feature Scaling Requirement</strong></td>
+                <td>Mandatory (StandardScaler used)</td>
+                <td>None (scale-invariant)</td>
+                <td>None (scale-invariant)</td>
+              </tr>
+              <tr>
+                <td><strong>Interpretability</strong></td>
+                <td>High (coefficients &amp; odds ratios)</td>
+                <td>Very High (explicit decision tree)</td>
+                <td>Moderate (Gini importance decomposition)</td>
+              </tr>
+              <tr>
+                <td><strong>Overfitting Risk</strong></td>
+                <td>Low (constrained linear model)</td>
+                <td>High if unpruned (sensitive to noise)</td>
+                <td>Very Low (variance reduced by averaging)</td>
+              </tr>
+              <tr>
+                <td><strong>Test Accuracy / F1</strong></td>
+                <td>92.27% / 93.87%</td>
+                <td>97.31% / 97.84%</td>
+                <td><strong>98.13% / 98.50% (Champion)</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Methodology & Limitations Section -->
+    <section class="methodology-section page-width" id="methodology">
+      <div class="section-heading">
+        <div>
+          <span class="section-tag">DATA INTEGRITY &amp; ETHICAL AI</span>
+          <h2 class="section-title">Methodology, Pipeline &amp; Limitations</h2>
+          <p class="section-subtitle">How data integrity is preserved and how this project relates to UN Sustainable Development Goals.</p>
+        </div>
+      </div>
+
+      <div class="pipeline-grid">
+        <div class="card pipeline-step">
+          <div class="step-num">01</div>
+          <h3 class="step-title">Safe Preprocessing Pipelines</h3>
+          <p class="step-desc">Uses scikit-learn <code>ColumnTransformer</code> to prevent data leakage. Missing values are imputed using training medians and modes; categories are one-hot encoded.</p>
+        </div>
+        <div class="card pipeline-step">
+          <div class="step-num">02</div>
+          <h3 class="step-title">Stratified Validation</h3>
+          <p class="step-desc">Maintains exact class proportions (Approved vs Rejected) across both training (3,415) and testing (854) subsets with a fixed random seed (42).</p>
+        </div>
+        <div class="card pipeline-step">
+          <div class="step-num">03</div>
+          <h3 class="step-title">Dual Architecture</h3>
+          <p class="step-desc">Supports both Python Flask REST API persistence with MySQL/SQLite and instant offline client-side evaluation without server dependencies.</p>
+        </div>
+        <div class="card pipeline-step">
+          <div class="step-num">04</div>
+          <h3 class="step-title">Responsible AI &amp; SDGs</h3>
+          <p class="step-desc">Connects equitable capital allocation to UN Sustainable Development Goals: SDG 1 (No Poverty) and SDG 8 (Decent Work &amp; Economic Growth).</p>
+        </div>
+        <div class="card pipeline-step">
+          <div class="step-num">05</div>
+          <h3 class="step-title">Dataset Limitations</h3>
+          <p class="step-desc">Historical training data may reflect past institutional biases. Algorithmic outputs are statistical demonstrations and not a legal lending decision.</p>
+        </div>
+        <div class="card pipeline-step">
+          <div class="step-num">06</div>
+          <h3 class="step-title">Security &amp; Privacy</h3>
+          <p class="step-desc">Passwords are hashed using Werkzeug PBKDF2:SHA-256. User application histories are strictly isolated with parameterized SQL queries.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="page-width footer-inner">
+      <div class="footer-brand">
+        <strong>CreditPulse AI</strong> · Loan Approval Prediction System
+        <span class="footer-meta">DSML Computer Engineering Project · Scikit-Learn, Flask, MySQL &amp; Vanilla Web</span>
+      </div>
+      <div class="footer-links">
+        <a href="#top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       Authentication & Details Modals
+       ========================================================================= -->
+
+  <!-- Login Modal -->
+  <div class="modal-backdrop" id="login-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="login-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="login-title">Log In to Your Account</h3>
+        <button type="button" class="modal-close-btn" data-close="login-modal" aria-label="Close modal">✕</button>
+      </div>
+      <form id="login-form" class="modal-form">
+        <div class="modal-alert" id="login-alert" style="display: none;"></div>
+        <div class="field">
+          <label for="login-email" class="field-label">Email Address</label>
+          <input type="email" id="login-email" name="email" required placeholder="name@example.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="login-password" class="field-label">Password</label>
+          <input type="password" id="login-password" name="password" required placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-primary modal-submit">
+          <span>Log In</span>
+        </button>
+        <p class="modal-switch-text">
+          Don't have an account? <button type="button" class="btn-link" id="switch-to-register">Register here</button>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Registration Modal -->
+  <div class="modal-backdrop" id="register-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="register-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="register-title">Create a New Account</h3>
+        <button type="button" class="modal-close-btn" data-close="register-modal" aria-label="Close modal">✕</button>
+      </div>
+      <form id="register-form" class="modal-form">
+        <div class="modal-alert" id="register-alert" style="display: none;"></div>
+        <div class="field">
+          <label for="reg-name" class="field-label">Full Name</label>
+          <input type="text" id="reg-name" name="full_name" required placeholder="John Doe" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="reg-email" class="field-label">Email Address</label>
+          <input type="email" id="reg-email" name="email" required placeholder="name@example.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="reg-password" class="field-label">Password (min 6 characters)</label>
+          <input type="password" id="reg-password" name="password" required minlength="6" placeholder="••••••••" autocomplete="new-password">
+        </div>
+        <div class="field">
+          <label for="reg-confirm" class="field-label">Confirm Password</label>
+          <input type="password" id="reg-confirm" name="confirm_password" required minlength="6" placeholder="••••••••" autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn-primary modal-submit">
+          <span>Create Account</span>
+        </button>
+        <p class="modal-switch-text">
+          Already registered? <button type="button" class="btn-link" id="switch-to-login">Log In</button>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Application Detail View Modal -->
+  <div class="modal-backdrop" id="detail-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+    <div class="modal-card modal-large">
+      <div class="modal-header">
+        <div>
+          <span class="badge-mini">APPLICATION RECORD</span>
+          <h3 id="detail-title">Loan Application Details</h3>
+        </div>
+        <button type="button" class="modal-close-btn" data-close="detail-modal" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body" id="detail-modal-body">
+        <div class="loading-state"><div class="spinner"></div><p>Loading application record…</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="static/model_data.js"></script>
+  <script src="static/predictor.js"></script>
+  <script src="static/script.js"></script>
+</body>
+</html>
